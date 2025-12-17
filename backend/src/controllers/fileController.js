@@ -460,38 +460,31 @@ exports.downloadViaShareLinkPublic = async (req, res) => {
     const { token } = req.params;
 
     const file = await File.findOne({ "shareLinks.token": token }).select(
-      "shareLinks cloudinaryPublicId resourceType mimeType"
+      "shareLinks cloudinaryUrl filename mimeType"
     );
 
-    if (!file) {
-      return res.status(404).json({ message: "Invalid share link" });
-    }
+    if (!file) return res.status(404).json({ message: "Invalid share link" });
 
     const link = (file.shareLinks || []).find((l) => l.token === token);
-    if (!link) {
-      return res.status(404).json({ message: "Invalid share link" });
-    }
+    if (!link) return res.status(404).json({ message: "Invalid share link" });
 
     if (link.expiresAt && new Date(link.expiresAt).getTime() < Date.now()) {
       return res.status(410).json({ message: "Share link expired" });
     }
 
-    const rt =
-      file.resourceType ||
-      (file.mimeType?.startsWith("image/") ? "image" : "raw");
+    const response = await axios.get(file.cloudinaryUrl, {
+      responseType: "stream",
+    });
 
     const safeName = (file.filename || "download").replace(
       /[/\\?%*:|"<>]/g,
       "-"
     );
 
-    const downloadUrl = cloudinary.url(file.cloudinaryPublicId, {
-      resource_type: rt,
-      type: "upload",
-      flags: `attachment:${safeName}`, // ✅ forces correct filename (e.g. abc.pdf)
-    });
+    res.setHeader("Content-Type", file.mimeType || "application/octet-stream");
+    res.setHeader("Content-Disposition", `attachment; filename="${safeName}"`);
 
-    return res.redirect(downloadUrl);
+    response.data.pipe(res);
   } catch (err) {
     return res.status(500).json({ message: "Download failed" });
   }
