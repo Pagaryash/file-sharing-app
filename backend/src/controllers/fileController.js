@@ -215,7 +215,6 @@ exports.getFileMeta = async (req, res) => {
   }
 };
 
-// GET download (redirect to cloudinary only if authorized)
 exports.downloadFile = async (req, res) => {
   try {
     const { fileId } = req.params;
@@ -481,10 +480,15 @@ exports.downloadViaShareLinkPublic = async (req, res) => {
       file.resourceType ||
       (file.mimeType?.startsWith("image/") ? "image" : "raw");
 
+    const safeName = (file.filename || "download").replace(
+      /[/\\?%*:|"<>]/g,
+      "-"
+    );
+
     const downloadUrl = cloudinary.url(file.cloudinaryPublicId, {
       resource_type: rt,
       type: "upload",
-      flags: "attachment", // forces correct download
+      flags: `attachment:${safeName}`, // ✅ forces correct filename (e.g. abc.pdf)
     });
 
     return res.redirect(downloadUrl);
