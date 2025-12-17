@@ -47,7 +47,8 @@ https://file-sharing-app-snowy-chi.vercel.app
 
 ## 📂 Project Structure
 
-file-sharing-app/
+```
+- file-sharing-app/
 ├── backend/
 │ ├── src/
 │ ├── .env (ignored)
@@ -59,6 +60,7 @@ file-sharing-app/
 │ └── .gitignore
 │
 └── README.md
+```
 
 ---
 
@@ -105,34 +107,24 @@ Run the frontend server: npm run dev
 Frontend will run at: http://localhost:5173
 ```
 
-Demo / Testing Flow
+## Demo / Testing Flow
 
-Register and login
+- Register and login
+- Upload a PDF or image
+- View file in My Files
+- Share file with another registered user
+- Login as the second user → view Shared With Me
+- Create a public share link with expiry
+- Open link for download
+- After expiry → link won't work
 
-Upload a PDF or image
+## Security Notes
 
-View file in My Files
+- JWT authentication for protected routes
+- Public share links use random tokens + expiry
+- Files are downloaded via Cloudinary attachment URLs
+- .env files are excluded from Git using .gitignore
 
-Share file with another registered user
-
-Login as the second user → view Shared With Me
-
-Create a public share link with expiry
-
-Open link for download
-
-After expiry → link won't work
-
-Security Notes
-
-JWT authentication for protected routes
-
-Public share links use random tokens + expiry
-
-Files are downloaded via Cloudinary attachment URLs
-
-.env files are excluded from Git using .gitignore
-
-Author
+## Author
 
 Yash Pagar
