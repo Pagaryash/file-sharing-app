@@ -5,9 +5,9 @@ Users can upload files, manage access, share with other registered users, and ge
 
 ---
 
-## Live link for demo -
+## Live Demo
 
-<file-sharing-app-snowy-chi.vercel.app>
+https://file-sharing-app-snowy-chi.vercel.app
 
 ---
 
