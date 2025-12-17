@@ -5,6 +5,10 @@ Users can upload files, manage access, share with other registered users, and ge
 
 ---
 
+## Live link for demo - https://file-sharing-app-snowy-chi.vercel.app/login
+
+---
+
 ## Features
 
 - User authentication (JWT)
@@ -69,7 +73,7 @@ file-sharing-app/
 ### Clone the repository
 
 ```bash
-git clone https://github.com/<your-username>/file-sharing-app.git
+git clone https://github.com/Pagaryash/file-sharing-app.git
 cd file-sharing-app
 
 
